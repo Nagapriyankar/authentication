@@ -2,9 +2,21 @@ const dotenv = require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
+const userRoute = require("./routes/userRoute")
+const bodyParser = require('body-parser');
+const cookieParser = require("cookie-parser")
 
 //initialize app
 const app = express()
+
+
+//middleware
+app.use(express.json()) //helps to handle json data in application 
+app.use(cookieParser())  //to create http only cookie as response to front end
+app.use(bodyParser.json());   // Parse JSON bodies
+app.use(bodyParser.urlencoded({ extended: true }));   // Parse URL-encoded bodies
+
+
 
 //initialize port
 const PORT = process.env.PORT || 5000
@@ -13,6 +25,11 @@ const PORT = process.env.PORT || 5000
 app.get("/", (req, res) => {
     res.send('Backend Application - Authentication')
 })
+
+//routes Middleware
+app.use("/api/users", userRoute)
+
+
 
 
 //connect to db and start server
