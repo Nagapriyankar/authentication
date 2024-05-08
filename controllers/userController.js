@@ -133,7 +133,28 @@ const profileImageUpload = asyncHandler(async (req, res) => {
     res.send("profile image")
 })
 const getUserList = asyncHandler(async (req, res) => {
-    res.send("user List")
+    
+    let skip = 0;
+    let limit = 10;
+    
+    // skip and limit parameters are strings, convert to number
+    if (req.query.skip) {
+        skip = parseInt(req.query.skip);
+    }
+    if (req.query.limit) {
+        limit = parseInt(req.query.limit);
+    }
+    // If skip or limit is negative, or limit is zero, return bad request
+    if (skip < 0 || limit <= 0) {
+        return res.status(400).json({ error: 'Invalid skip or limit parameter' });
+    }
+
+    // Query MongoDB to retrieve users with optional skip and limit
+    const users = await User.find().skip(skip).limit(limit);
+    // Send the users as response
+    res.json(users);
+
+
 })
 
 
