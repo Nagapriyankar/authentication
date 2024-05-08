@@ -29,9 +29,9 @@ const userSchema = mongoose.Schema({
     
     },
     photo: {
-        type: String,
+        type: Object,
         required: [true, "Please upload a photo"],
-        default: "https://i.ibb.co/4pDNDk1/avatar.png"
+        default: []
     },
 }, {
     timestamps: true,    //add timestamp by default

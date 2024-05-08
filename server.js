@@ -5,17 +5,16 @@ const cors = require("cors")
 const userRoute = require("./routes/userRoute")
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser")
+const path = require("path")
 
 //initialize app
 const app = express()
-
 
 //middleware
 app.use(express.json()) //helps to handle json data in application 
 app.use(cookieParser())  //to create http only cookie as response to front end
 app.use(bodyParser.json());   // Parse JSON bodies
 app.use(bodyParser.urlencoded({ extended: true }));   // Parse URL-encoded bodies
-
 
 
 //initialize port
@@ -26,11 +25,11 @@ app.get("/", (req, res) => {
     res.send('Backend Application - Authentication')
 })
 
-//routes Middleware
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))  // linked file upload functionality - it is goig to point upload folder
+
+
+//routes 
 app.use("/api/users", userRoute)
-
-
-
 
 //connect to db and start server
 mongoose
